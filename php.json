@@ -1,56 +1,28 @@
 {
-	// Place your snippets for PHP here. Each snippet is defined under a snippet name and has a prefix, body and 
-	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
-	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
-	// same ids are connected.
-	// Example:
-	// "Print to console": {
-	// 	"prefix": "log",
-	// 	"body": [
-	// 		"console.log('$1');",
-	// 		"$2"
-	// 	],
-	// 	"description": "Log output to console"
-	// }
-	//
-	// You can also restrict snippets to specific files using include/exclude patterns:
-	// "Test snippet": {
-	// 	"prefix": "test",
-	// 	"body": "test('$1', () => {\n\t$0\n});",
-	// 	"include": ["**/*.test.ts", "*.spec.ts"],
-	// 	"exclude": ["**/temp/*.ts"],
-	// 	"description": "Insert test block"
-	// }
-
-	"PHP Front Controller": {
-		"prefix": "fctrl",
-		"body": [
-            "<?php // フロントコントローラ",
-            "",
-            "// リクエストメソッドの種類",
+    "PHP Front Controller": {
+        "prefix": "fctrl",
+        "body": [
             "\\$requestMethod = \\$_SERVER['REQUEST_METHOD'];",
-            "if (\\$requestMethod != 'GET' && \\$requestMethod != 'POST') {",
+            "if (\\$requestMethod !== 'GET' && \\$requestMethod !== 'POST') {",
             "    clientError(\"本システムではGET/POST以外対応していません。\");",
             "}",
             "",
-            "// リクエストがGETならtrue、POSTならfalse、それ以外ならnull",
-            "\\$isExistsPathInGet = isset(\\$_GET['path']);",
-            "\\$isExistsPathInPost = isset(\\$_POST['path']);",
-            "",
-            "\\$path = !\\$isExistsPathInGet && !\\$isExistsPathInPost ? null :",
-            "        (\\$isExistsPathInGet ? \\$_GET['path'] : \\$_POST['path']);",
+            "\\$path = null;",
+            "if (\\$requestMethod === 'GET') {",
+            "    \\$path = \\$_GET['path'] ?? null;",
+            "} else if (\\$requestMethod === 'POST') {",
+            "    \\$path = \\$_POST['path'] ?? null;",
+            "}",
             "",
             "if (is_null(\\$path)) {",
-            "    clientError(\"pathクエリパラメータが指定されていません。\");",
-            "} else if (\\$path == \"\$1\") {",
-            "    // コントローラーアクションを実行",
-            "    \$0",
+            "    clientError(\"pathクエリ/パラメータが指定されていません。\");",
+            "} else if (\\$path === \"$1\") {",
+            "    $0",
             "}",
             "",
             "function clientError(\\$errorMsg) {",
-            "    // エラー画面などに飛ばしてください。",
             "}"
-		],
-		"description": "PHP用の基本的なフロントコントローラースニペット"
-	}
+        ],
+        "description": "PHP用の基本的なフロントコントローラースニペット"
+    }
 }
