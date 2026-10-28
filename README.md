@@ -1,0 +1,2 @@
+# MyFovaliteVSCodeSnipets
+自分好みのVSCode用スニペット
